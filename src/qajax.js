@@ -84,7 +84,14 @@
     if (data !== null && typeof data === "object") {
       if (!(CONTENT_TYPE in headers))
         headers[CONTENT_TYPE] = "application/json";
-      this.data = JSON.stringify(data);
+      if(headers[CONTENT_TYPE] == "application/x-www-form-urlencoded")
+      {
+        //Need to encode as form to POST body
+        var formEU = require('form-urlencoded');
+        this.data = formEU.encode(data);
+      }
+      else
+        this.data = JSON.stringify(data);
     }
   
     // Protect send from any exception which will be encapsulated in a failure.
